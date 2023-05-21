@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import CardContainer from './CardContainer'
+import CardContainer from './CardContainer.jsx'
+import ScoreContainer from './ScoreContainer.jsx'
 import { characters } from '../loadImages.js'
 
 // const dataIn = [
@@ -27,12 +28,51 @@ import { characters } from '../loadImages.js'
 
 export default function Main () {
   const [data, setData] = useState(characters)
+  const [score, setScore] = useState({
+    current: 0,
+    best: 0
+  })
+
+  function handleClickCard (idImage) {
+    setData(data.map(card => {
+      if (card.id === idImage) {
+        if (!card.clicked) {
+          // ADD score
+          increaseScore()
+          return {
+            ...card,
+            clicked: true
+          }
+        } else {
+          // HANDLE GAMEOVER
+          console.log('GAMEOVER')
+          return {
+            ...card,
+            clicked: false
+          }
+        }
+      } else { return { ...card } }
+    }))
+  }
+
+  function increaseScore () {
+    setScore({
+      current: score.current + 1,
+      best: score.best < score.current + 1
+        ? score.current + 1
+        : score.best
+    })
+  }
   return (
     <main>
       <h1>Memory Card Game</h1>
-      <div className="score-container"></div>
+      <ScoreContainer
+        best={score.best}
+        current={score.current}
+      />
       <CardContainer
         data={data}
+        onClickCard={handleClickCard}
       />
     </main>
   )

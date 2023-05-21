@@ -1,13 +1,13 @@
 import React from 'react'
 
-export default function CardContainer ({ data }) {
-  console.log(data)
-
+export default function CardContainer ({ data, onClickCard }) {
   const cards = data.map(card =>
     <Card
       id={card.id}
       image={card.image}
       name={card.name}
+      handleClick={onClickCard}
+      clicked={card.clicked.toString()}
     />
   )
 
@@ -18,9 +18,9 @@ export default function CardContainer ({ data }) {
   )
 }
 
-function Card ({ id, image, name }) {
+function Card ({ id, image, name, handleClick, clicked }) {
   return (
-      <div className="card" key={id}>
+      <div className="card" key={id} onClick={() => { handleClick(id) }} isclicked={clicked}>
         <img className="card-image"
           src={image} alt={name}/>
         <p className="card-name">{name}</p>
