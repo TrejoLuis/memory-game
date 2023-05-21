@@ -3,12 +3,12 @@ import React from 'react'
 export default function CardContainer ({ data }) {
   console.log(data)
 
-  const cards = data.map(card => 
-    <Card 
+  const cards = data.map(card =>
+    <Card
       id={card.id}
       image={card.image}
-      description={card.description}
-    />   
+      name={card.name}
+    />
   )
 
   return (
@@ -18,11 +18,12 @@ export default function CardContainer ({ data }) {
   )
 }
 
-function Card ({ id, image, description }) {
+function Card ({ id, image, name }) {
   return (
       <div className="card" key={id}>
-        <div className="card-image">{image}</div>
-        <p className="card-description">{description}</p>
+        <img className="card-image"
+          src={image} alt={name}/>
+        <p className="card-name">{name}</p>
       </div>
   )
 }
