@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CardContainer from './CardContainer.jsx'
 import ScoreContainer from './ScoreContainer.jsx'
 import { characters } from '../loadImages.js'
+import { getLocalScore, setLocalScore } from '../utils/scoreManagement.js'
 
 // const dataIn = [
 //   {
@@ -27,11 +28,19 @@ import { characters } from '../loadImages.js'
 // ]
 
 export default function Main () {
+  const localBestScore = getLocalScore()
+
   const [data, setData] = useState(characters)
-  const [score, setScore] = useState({
-    current: 0,
-    best: 0
-  })
+  const [score, setScore] = useState(0)
+  const [bestScore, setBestScore] = useState(localBestScore)
+
+  // increase best score
+  useEffect(() => {
+    if (score > bestScore) {
+      setBestScore(bestScore + 1)
+      setLocalScore(score)
+    }
+  }, [score])
 
   function handleClickCard (idImage) {
     setData(data.map(card => {
@@ -56,19 +65,14 @@ export default function Main () {
   }
 
   function increaseScore () {
-    setScore({
-      current: score.current + 1,
-      best: score.best < score.current + 1
-        ? score.current + 1
-        : score.best
-    })
+    setScore(score + 1)
   }
   return (
     <main>
       <h1>Memory Card Game</h1>
       <ScoreContainer
-        best={score.best}
-        current={score.current}
+        score={score}
+        bestScore={bestScore}
       />
       <CardContainer
         data={data}

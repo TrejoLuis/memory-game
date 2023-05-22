@@ -1,9 +1,16 @@
 import React from 'react'
-export default function ScoreContainer ({ current, best }) {
+import PropTypes from 'prop-types'
+export default function ScoreContainer ({ score, bestScore }) {
   return (
     <div className="score-container">
-      <p>Best score: <span>{best}</span></p>
-      <p>Current score: <span>{current}</span></p>
+      <p>Best score: <span>{bestScore}</span></p>
+      <p>Current score: <span>{score}</span></p>
     </div>
   )
+}
+
+ScoreContainer.propTypes = {
+  score: PropTypes.number,
+  bestScore: PropTypes.number
+
 }
