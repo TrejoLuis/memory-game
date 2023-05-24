@@ -1,31 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import CardContainer from './CardContainer.jsx'
 import ScoreContainer from './ScoreContainer.jsx'
-import { characters } from '../loadImages.js'
+import { characters } from '../utils/loadCharacters.js'
 import { getLocalScore, setLocalScore } from '../utils/scoreManagement.js'
-
-// const dataIn = [
-//   {
-//     id: 1,
-//     image: 'Image1',
-//     description: 'Number1'
-//   },
-//   {
-//     id: 2,
-//     image: 'Image2',
-//     description: 'Number2'
-//   },
-//   {
-//     id: 3,
-//     image: 'Image3',
-//     description: 'Number3'
-//   },
-//   {
-//     id: 4,
-//     image: 'Image4',
-//     description: 'Number4'
-//   }
-// ]
+import GameOptionsForm from './GameOptionsForm.jsx'
 
 export default function Main () {
   const localBestScore = getLocalScore()
@@ -74,6 +52,7 @@ export default function Main () {
         score={score}
         bestScore={bestScore}
       />
+      <GameOptionsForm />
       <CardContainer
         data={data}
         onClickCard={handleClickCard}
