@@ -1,11 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-export default function GameOptionsForm () {
+export default function GameSettingsForm ({ onSubmitSettings }) {
   return (
-    <form className="game-options">
+    <form className="game-options" onSubmit={onSubmitSettings}>
       <div className="box-form">
-        <label>Saints Cloth: </label>
-        <select name='saints'>
+        <label>Cloth: </label>
+        <select name='cloth'>
           <option value='bronze'>Bronze</option>
           <option value='silver'>Silver</option>
           <option value='gold'>Gold</option>
@@ -15,12 +16,16 @@ export default function GameOptionsForm () {
       <div className='box-form'>
         <label>Difficult: </label>
         <select name='difficult'>
-          <option value='1'>Easy </option>
-          <option value='2'>Normal </option>
-          <option value='3'>Hard </option>
+          <option value='easy'>Easy </option>
+          <option value='normal'>Normal </option>
+          <option value='hard'>Hard </option>
         </select>
       </div>
       <button type='submit'>Start</button>
     </form>
   )
+}
+
+GameSettingsForm.propTypes = {
+  onSubmitSettings: PropTypes.func
 }
