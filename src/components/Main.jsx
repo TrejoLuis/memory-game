@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import CardContainer from './CardContainer.jsx'
 import ScoreContainer from './ScoreContainer.jsx'
-import { characters } from '../utils/loadCharacters.js'
+import GameSettingsForm from './GameOptionsForm.jsx'
+import { selectCharacters } from '../utils/loadCharacters.js'
 import { getLocalScore, setLocalScore } from '../utils/scoreManagement.js'
-import GameOptionsForm from './GameOptionsForm.jsx'
 
 export default function Main () {
   const localBestScore = getLocalScore()
 
-  const [data, setData] = useState(characters)
+  const [data, setData] = useState()
   const [score, setScore] = useState(0)
   const [bestScore, setBestScore] = useState(localBestScore)
+  const [started, setStarted] = useState(false)
+  const [gameSettings, setGameSettings] = useState()
 
   // increase best score
   useEffect(() => {
@@ -45,6 +47,20 @@ export default function Main () {
   function increaseScore () {
     setScore(score + 1)
   }
+
+  function handleGameSettingsSubmit (e) {
+    e.preventDefault()
+    const { cloth, difficult } = e.target.elements
+    console.log(e.target.elements)
+    setGameSettings({
+      cloth: e.target.elements.cloth.value,
+      difficult: e.target.elements.difficult.value
+    })
+    setData(selectCharacters(cloth.value, difficult.value))
+    setScore(0)
+    setStarted(true)
+  }
+
   return (
     <main>
       <h1>Memory Card Game</h1>
@@ -52,11 +68,15 @@ export default function Main () {
         score={score}
         bestScore={bestScore}
       />
-      <GameOptionsForm />
+      <GameSettingsForm
+        onSubmitSettings={handleGameSettingsSubmit}
+      />
+      {started &&
       <CardContainer
         data={data}
         onClickCard={handleClickCard}
       />
+      }
     </main>
   )
 }
