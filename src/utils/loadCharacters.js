@@ -327,7 +327,7 @@ function selectCharacters (cloth, difficult) {
   let characters
   if (cloth === 'mixed') { characters = [...allCharacters] } else { characters = allCharacters.filter(char => char.cloth === cloth) }
 
-  const shuffledCharacters = [...characters].sort(() => 0.5 - Math.random())
+  const shuffledCharacters = shuffleArray(characters)
   let size
   difficults.forEach(dif => {
     if (dif.difficult === difficult) { size = dif.characters }
@@ -336,6 +336,18 @@ function selectCharacters (cloth, difficult) {
   return shuffledCharacters.slice(0, size)
 }
 
+function shuffleArray (array) {
+  const outArr = [...array]
+  for (let i = outArr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    const tmp = outArr[i]
+    outArr[i] = outArr[j]
+    outArr[j] = tmp
+  }
+  return outArr
+}
+
 export {
-  selectCharacters
+  selectCharacters,
+  shuffleArray
 }

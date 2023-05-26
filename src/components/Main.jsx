@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import CardContainer from './CardContainer.jsx'
-import ScoreContainer from './ScoreContainer.jsx'
-import GameSettingsForm from './GameOptionsForm.jsx'
-import { selectCharacters } from '../utils/loadCharacters.js'
+import GameBoard from './GameBoard.jsx'
+import ScoreBoard from './ScoreBoard.jsx'
+import GameSettingsForm from './GameSettingsForm.jsx'
+import { selectCharacters, shuffleArray } from '../utils/loadCharacters.js'
 import { getLocalScore, setLocalScore } from '../utils/scoreManagement.js'
 
 export default function Main () {
@@ -12,7 +12,8 @@ export default function Main () {
   const [score, setScore] = useState(0)
   const [bestScore, setBestScore] = useState(localBestScore)
   const [started, setStarted] = useState(false)
-  const [gameSettings, setGameSettings] = useState()
+
+  // TODO autoload submit on first load
 
   // increase best score
   useEffect(() => {
@@ -23,25 +24,24 @@ export default function Main () {
   }, [score])
 
   function handleClickCard (idImage) {
-    setData(data.map(card => {
-      if (card.id === idImage) {
-        if (!card.clicked) {
-          // ADD score
-          increaseScore()
-          return {
-            ...card,
-            clicked: true
-          }
-        } else {
-          // HANDLE GAMEOVER
-          console.log('GAMEOVER')
-          return {
-            ...card,
-            clicked: false
-          }
-        }
-      } else { return { ...card } }
-    }))
+    console.log(idImage)
+    const clickedCard = data.find(card => card.id === idImage)
+    if (clickedCard.clicked) {
+      handleLoss()
+      console.log('gameover')
+    } else {
+      // set true to clicked card, increasing score
+      let newData = [...data]
+      for (const card of newData) {
+        if (card === clickedCard) { card.clicked = true }
+      }
+      // Check if won match
+      // HANDLEVICTORY
+      newData = shuffleArray(newData)
+      setData(newData)
+      // ADD score
+      increaseScore()
+    }
   }
 
   function increaseScore () {
@@ -52,19 +52,26 @@ export default function Main () {
     e.preventDefault()
     const { cloth, difficult } = e.target.elements
     console.log(e.target.elements)
-    setGameSettings({
-      cloth: e.target.elements.cloth.value,
-      difficult: e.target.elements.difficult.value
-    })
     setData(selectCharacters(cloth.value, difficult.value))
     setScore(0)
     setStarted(true)
   }
 
+  function handleLoss () {
+    setScore(0)
+    const newData = shuffleArray(data)
+    newData.forEach(char => {
+      char.clicked = false
+    })
+    console.log(newData)
+    setData(newData)
+    // GAMEOVER DIALOG or POPUP
+  }
+
   return (
     <main>
       <h1>Memory Card Game</h1>
-      <ScoreContainer
+      <ScoreBoard
         score={score}
         bestScore={bestScore}
       />
@@ -72,7 +79,7 @@ export default function Main () {
         onSubmitSettings={handleGameSettingsSubmit}
       />
       {started &&
-      <CardContainer
+      <GameBoard
         data={data}
         onClickCard={handleClickCard}
       />

@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 
 export default function GameSettingsForm ({ onSubmitSettings }) {
   return (
-    <form className="game-options" onSubmit={onSubmitSettings}>
+    <form className="settings-form" onSubmit={onSubmitSettings}>
       <div className="box-form">
         <label>Cloth: </label>
-        <select name='cloth'>
+        <select name='cloth' defaultValue='gold'>
           <option value='bronze'>Bronze</option>
           <option value='silver'>Silver</option>
           <option value='gold'>Gold</option>
@@ -15,7 +15,7 @@ export default function GameSettingsForm ({ onSubmitSettings }) {
       </div>
       <div className='box-form'>
         <label>Difficult: </label>
-        <select name='difficult'>
+        <select name='difficult' defaultValue='normal'>
           <option value='easy'>Easy </option>
           <option value='normal'>Normal </option>
           <option value='hard'>Hard </option>

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-export default function CardContainer ({ data, onClickCard }) {
+export default function GameBoard ({ data, onClickCard }) {
   const cards = data.map(card =>
     <Card
       id={card.id}
@@ -14,7 +14,7 @@ export default function CardContainer ({ data, onClickCard }) {
   )
 
   return (
-    <div className="card-container">
+    <div className="game-board">
       {cards}
     </div>
   )
@@ -30,7 +30,7 @@ function Card ({ id, image, name, handleClick, clicked }) {
   )
 }
 
-CardContainer.propTypes = {
+GameBoard.propTypes = {
   data: PropTypes.array,
   onClickCard: PropTypes.func
 }
