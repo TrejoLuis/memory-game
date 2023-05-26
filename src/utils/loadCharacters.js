@@ -325,7 +325,7 @@ function selectCharacters (cloth, difficult) {
   if (!difficults.some(d => d.difficult === difficult)) throw new Error('Wrong difficult selection')
 
   let characters
-  if (cloth === 'mixed') { characters = [...allCharacters] } else { characters = allCharacters.filter(char => char.cloth === cloth) }
+  if (cloth === 'mixed') { characters = structuredClone(allCharacters) } else { characters = structuredClone(allCharacters).filter(char => char.cloth === cloth) }
 
   const shuffledCharacters = shuffleArray(characters)
   let size
