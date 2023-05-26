@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-export default function GameSettingsForm ({ onSubmitSettings }) {
+export default function GameSettingsForm ({ onSubmitSettings, formRef }) {
   return (
-    <form className="settings-form" onSubmit={onSubmitSettings}>
+    <form ref={formRef} className="settings-form" onSubmit={onSubmitSettings}>
       <div className="box-form">
         <label>Cloth: </label>
         <select name='cloth' defaultValue='gold'>
@@ -27,5 +27,6 @@ export default function GameSettingsForm ({ onSubmitSettings }) {
 }
 
 GameSettingsForm.propTypes = {
-  onSubmitSettings: PropTypes.func
+  onSubmitSettings: PropTypes.func,
+  formRef: PropTypes.any
 }

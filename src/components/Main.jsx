@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import GameBoard from './GameBoard.jsx'
 import ScoreBoard from './ScoreBoard.jsx'
 import GameSettingsForm from './GameSettingsForm.jsx'
@@ -12,6 +12,7 @@ export default function Main () {
   const [score, setScore] = useState(0)
   const [bestScore, setBestScore] = useState(localBestScore)
   const [started, setStarted] = useState(false)
+  const settingsForm = useRef()
 
   // TODO autoload submit on first load
 
@@ -24,7 +25,6 @@ export default function Main () {
   }, [score])
 
   function handleClickCard (idImage) {
-    console.log(idImage)
     const clickedCard = data.find(card => card.id === idImage)
     if (clickedCard.clicked) {
       handleLoss()
@@ -35,12 +35,21 @@ export default function Main () {
       for (const card of newData) {
         if (card === clickedCard) { card.clicked = true }
       }
-      // Check if won match
-      // HANDLEVICTORY
       newData = shuffleArray(newData)
       setData(newData)
       // ADD score
       increaseScore()
+
+      // Check winner
+      if (!newData.some(card => !card.clicked)) {
+        // HANDLEVICTORY
+        alert("You've Won")
+        // Automatic restart
+        settingsForm.current.dispatchEvent(
+          new Event('submit', { bubbles: true, cancelable: true })
+        )
+        // settingsForm.current
+      }
     }
   }
 
@@ -51,7 +60,6 @@ export default function Main () {
   function handleGameSettingsSubmit (e) {
     e.preventDefault()
     const { cloth, difficult } = e.target.elements
-    console.log(e.target.elements)
     setData(selectCharacters(cloth.value, difficult.value))
     setScore(0)
     setStarted(true)
@@ -63,9 +71,9 @@ export default function Main () {
     newData.forEach(char => {
       char.clicked = false
     })
-    console.log(newData)
     setData(newData)
     // GAMEOVER DIALOG or POPUP
+    alert("You've Lost")
   }
 
   return (
@@ -77,6 +85,7 @@ export default function Main () {
       />
       <GameSettingsForm
         onSubmitSettings={handleGameSettingsSubmit}
+        formRef={settingsForm}
       />
       {started &&
       <GameBoard
