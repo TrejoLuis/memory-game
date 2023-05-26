@@ -15,6 +15,11 @@ export default function Main () {
   const settingsForm = useRef()
 
   // TODO autoload submit on first load
+  useEffect(() => {
+    settingsForm.current.dispatchEvent(
+      new Event('submit', { bubbles: true, cancelable: true })
+    )
+  }, [])
 
   // increase best score
   useEffect(() => {
