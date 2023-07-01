@@ -14,19 +14,19 @@ export default function GameBoard ({ data, onClickCard }) {
   )
 
   return (
-    <div className="game-board">
+    <section className="game-board">
       {cards}
-    </div>
+    </section>
   )
 }
 
 function Card ({ id, image, name, handleClick, clicked }) {
   return (
-      <div className="card" onClick={() => { handleClick(id) }} isclicked={clicked}>
+      <article className="card" onClick={() => { handleClick(id) }} isclicked={clicked}>
         <img className="card-image"
           src={image} alt={name}/>
         <p className="card-name">{name}</p>
-      </div>
+      </article>
   )
 }
 

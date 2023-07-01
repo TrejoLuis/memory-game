@@ -83,7 +83,6 @@ export default function Main () {
 
   return (
     <main>
-      <h1>Memory Card Game</h1>
       <ScoreBoard
         score={score}
         bestScore={bestScore}
