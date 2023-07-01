@@ -14,7 +14,7 @@ export default function Main () {
   const [started, setStarted] = useState(false)
   const settingsForm = useRef()
 
-  // TODO autoload submit on first load
+  // trigger submit from the form to automatic start a game
   useEffect(() => {
     settingsForm.current.dispatchEvent(
       new Event('submit', { bubbles: true, cancelable: true })
@@ -83,14 +83,16 @@ export default function Main () {
 
   return (
     <main>
-      <ScoreBoard
-        score={score}
-        bestScore={bestScore}
-      />
-      <GameSettingsForm
-        onSubmitSettings={handleGameSettingsSubmit}
-        formRef={settingsForm}
-      />
+      <section className='game-info'>
+        <GameSettingsForm
+          onSubmitSettings={handleGameSettingsSubmit}
+          formRef={settingsForm}
+        />
+        <ScoreBoard
+          score={score}
+          bestScore={bestScore}
+        />
+      </section>
       {started &&
       <GameBoard
         data={data}
