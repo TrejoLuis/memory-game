@@ -4,6 +4,7 @@ import ScoreBoard from './ScoreBoard.jsx'
 import GameSettingsForm from './GameSettingsForm.jsx'
 import { selectCharacters, shuffleArray } from '../utils/loadCharacters.js'
 import { getLocalScore, setLocalScore } from '../utils/scoreManagement.js'
+import MatchResult from './MatchResult.jsx'
 
 export default function Main () {
   const localBestScore = getLocalScore()
@@ -11,14 +12,14 @@ export default function Main () {
   const [data, setData] = useState()
   const [score, setScore] = useState(0)
   const [bestScore, setBestScore] = useState(localBestScore)
-  const [started, setStarted] = useState(false)
+  // const [started, setStarted] = useState(false)
+  const [endMatch, setEndMatch] = useState(false)
+  const [isWin, setIsWin] = useState(false)
   const settingsForm = useRef()
 
   // trigger submit from the form to automatic start a game
   useEffect(() => {
-    settingsForm.current.dispatchEvent(
-      new Event('submit', { bubbles: true, cancelable: true })
-    )
+    autoSubmitForm()
   }, [])
 
   // increase best score
@@ -29,11 +30,20 @@ export default function Main () {
     }
   }, [score])
 
+  function autoSubmitForm () {
+    settingsForm.current.dispatchEvent(
+      new Event('submit', { bubbles: true, cancelable: true })
+    )
+  }
+
   function handleClickCard (idImage) {
     const clickedCard = data.find(card => card.id === idImage)
     if (clickedCard.clicked) {
-      handleLoss()
-      console.log('gameover')
+      // GAME OVER
+      // handleLoss()
+      setEndMatch(true)
+      // setStarted(false)
+      // console.log('gameover')
     } else {
       // set true to clicked card, increasing score
       let newData = [...data]
@@ -47,12 +57,15 @@ export default function Main () {
 
       // Check winner
       if (!newData.some(card => !card.clicked)) {
+        setIsWin(true)
+        setEndMatch(true)
+        // setStarted(false)
         // HANDLEVICTORY
-        alert("You've Won")
+        // alert("You've Won")
         // Automatic restart
-        settingsForm.current.dispatchEvent(
-          new Event('submit', { bubbles: true, cancelable: true })
-        )
+        // settingsForm.current.dispatchEvent(
+        //   new Event('submit', { bubbles: true, cancelable: true })
+        // )
         // settingsForm.current
       }
     }
@@ -67,19 +80,27 @@ export default function Main () {
     const { cloth, difficult } = e.target.elements
     setData(selectCharacters(cloth.value, difficult.value))
     setScore(0)
-    setStarted(true)
+    // setStarted(true)
+    setEndMatch(false)
   }
 
-  function handleLoss () {
+  function restartGame () {
     setScore(0)
-    const newData = shuffleArray(data)
-    newData.forEach(char => {
-      char.clicked = false
-    })
-    setData(newData)
-    // GAMEOVER DIALOG or POPUP
-    alert("You've Lost")
+    autoSubmitForm()
+    setEndMatch(false)
   }
+
+  // function handleLoss () {
+  //   setScore(0)
+  //   const newData = shuffleArray(data)
+  //   newData.forEach(char => {
+  //     char.clicked = false
+  //   })
+  //   setData(newData)
+  //   // GAMEOVER DIALOG or POPUP
+  //   // alert("You've Lost")
+  //   setEndMatch(true)
+  // }
 
   return (
     <main>
@@ -93,12 +114,15 @@ export default function Main () {
           bestScore={bestScore}
         />
       </section>
-      {started &&
+
+      {data &&
       <GameBoard
         data={data}
         onClickCard={handleClickCard}
       />
       }
+      { endMatch &&
+          <MatchResult score={score} win={isWin} restartGame={restartGame} />}
     </main>
   )
 }
