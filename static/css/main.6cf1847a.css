@@ -1,2 +1,0 @@
-*,:after,:before{box-sizing:border-box;margin:0;padding:0}body{font-size:1.3rem}.game-board{grid-gap:2rem;display:grid;gap:2rem;grid-auto-rows:minmax(150px,1fr);grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}.card{background-color:olive;border:1px solid green}.card,.card>img{height:100%;width:100%}.card>img{object-fit:cover}.card>p{margin-top:-.5rem;text-align:center}
-/*# sourceMappingURL=main.6cf1847a.css.map*/

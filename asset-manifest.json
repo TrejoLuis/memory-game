@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/memory-game/static/css/main.6cf1847a.css",
-    "main.js": "/memory-game/static/js/main.68c3937f.js",
+    "main.css": "/memory-game/static/css/main.4b40d296.css",
+    "main.js": "/memory-game/static/js/main.3387b35d.js",
     "static/media/Pegasus_Seiya.webp": "/memory-game/static/media/Pegasus_Seiya.aae64000a1fe05b2375d.webp",
     "static/media/Fenix_Ikki.webp": "/memory-game/static/media/Fenix_Ikki.95c83203afb7b9e125b3.webp",
     "static/media/Sagittarius_Aioros.webp": "/memory-game/static/media/Sagittarius_Aioros.ffb28401ed1e77018a17.webp",
@@ -40,11 +40,11 @@
     "static/media/Crow_Jamian.webp": "/memory-game/static/media/Crow_Jamian.61bbca0f323bd3c47069.webp",
     "static/media/Lionet_Ban.webp": "/memory-game/static/media/Lionet_Ban.9b2e94703633cf80916d.webp",
     "index.html": "/memory-game/index.html",
-    "main.6cf1847a.css.map": "/memory-game/static/css/main.6cf1847a.css.map",
-    "main.68c3937f.js.map": "/memory-game/static/js/main.68c3937f.js.map"
+    "main.4b40d296.css.map": "/memory-game/static/css/main.4b40d296.css.map",
+    "main.3387b35d.js.map": "/memory-game/static/js/main.3387b35d.js.map"
   },
   "entrypoints": [
-    "static/css/main.6cf1847a.css",
-    "static/js/main.68c3937f.js"
+    "static/css/main.4b40d296.css",
+    "static/js/main.3387b35d.js"
   ]
 }
